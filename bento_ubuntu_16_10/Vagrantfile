@@ -70,7 +70,6 @@ Vagrant.configure("2") do |config|
     DEBIAN_FRONTEND=noninteractive apt-get disp-upgrade --yes
     apt-get install -y $( echo $( echo "
         virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
-        xmonad suckless-tools xscreensaver xmobar
     " ) )
   SHELL
 
@@ -79,7 +78,8 @@ Vagrant.configure("2") do |config|
     echo ~
     git clone https://github.com/jones77/scripts ~/github/scripts \
         || cd ~/github/scripts && git pull  # git clone failed, do git pull
-    ~/github/scripts/files.sh  # configure dotfiles
+    ~/github/scripts/files.sh        # configure dotfiles
+    ~/github/scripts/packages.sh -x  # configure Desktop packages
     if [[ ! -f ~/bin/dropboxd ]]
     then
         curl -Ss -L "https://dropbox.com/download?plat=lnx.x86_64" | tar xzf -
