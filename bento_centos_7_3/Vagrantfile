@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
    
     # Update software, install git
     config.vm.provision "shell", inline: <<-SHELL
-        yum update -y
+        yum update -y && yum upgrade -y
         yum install -y git
     SHELL
 
