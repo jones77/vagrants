@@ -1,0 +1,21 @@
+Vagrant.configure("2") do |config|
+    config.vm.box = "bento/centos-7.3"
+    config.vm.synced_folder "C:\\Users\\James\\Dropbox", "/home/vagrant/dropbox"
+    config.vm.provider "virtualbox" do |vb|
+        vb.gui = true
+        vb.memory = "4096"
+        vb.customize ["modifyvm", :id, "--vram", 256]
+        vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
+    end
+
+    # FIXME: Centos equivalent of?
+    # virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
+   
+    # Update software, install git
+    config.vm.provision "shell", inline: <<-SHELL
+        yum update -y
+        yum install -y git
+    SHELL
+
+    config.vm.provision "shell", path: "../vagrant.sh", privileged: false
+end

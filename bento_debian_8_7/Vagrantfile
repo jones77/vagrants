@@ -1,5 +1,5 @@
 Vagrant.configure("2") do |config|
-    config.vm.box = "bento/ubuntu-16.10"
+    config.vm.box = "bento/debian-8.7"
     config.vm.synced_folder "C:\\Users\\James\\Dropbox", "/home/vagrant/dropbox"
     config.vm.provider "virtualbox" do |vb|
         vb.gui = true
@@ -8,15 +8,15 @@ Vagrant.configure("2") do |config|
         vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
     end
 
-    # Update software, install virtualbox and git
+    # FIXME: Debian equivalent of?
+    # virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
+
+    # Update software, install git (and sudo 'cos debian)
     config.vm.provision "shell", inline: <<-SHELL
         apt-get update -y
         apt-get upgrade -y
-        DEBIAN_FRONTEND=noninteractive apt-get disp-upgrade --yes
-        apt-get install -y \
-            virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 \
-            git
+        apt-get install -y git sudo
     SHELL
 
-  config.vm.provision "shell", path: "../vagrant.sh", privileged: false
+    config.vm.provision "shell", path: '../vagrant.sh', privileged: false
 end
